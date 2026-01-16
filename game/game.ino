@@ -2,9 +2,10 @@
 #include <LiquidCrystal_I2C.h>
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-// Variable für die aktuelle Position (0 oder 1)
 int characterPosition = 0;
 int lastButtonState = HIGH;
+
+int test = 42;
 
 void INIT_PINS() {
     pinMode(13, OUTPUT);
@@ -19,6 +20,7 @@ void INIT_LCD() {
     delay(1000);
     lcd.clear();
     lcd.setCursor(0, 0);
+
 }
 
 void displayCharacter() {
@@ -31,20 +33,16 @@ void setup() {
     INIT_PINS();
     INIT_LCD();
     displayCharacter();
+    lcd.print(test);
 }
 
 void loop() {
-    // Button-Zustand auslesen
     int buttonState = digitalRead(2);
-    
-    // Wenn Button gedrückt wird (LOW)
     if (buttonState == LOW && lastButtonState == HIGH) {
-        // Position umschalten zwischen 0 und 1
         characterPosition = (characterPosition == 0) ? 1 : 0;
         displayCharacter();
-        delay(50); // Debounce
+        delay(50);
     }
-    
     lastButtonState = buttonState;
     delay(10);
 }
